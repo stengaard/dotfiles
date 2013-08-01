@@ -1,4 +1,4 @@
 dotfiles
 ========
 
-Just my dotfiles.
+Just my dotfiles - nothing special.
