@@ -1,6 +1,12 @@
-TARGETS=emacs bashrc profile
+TARGETS=emacs bashrc profile zshrc
 
-all: $(addprefix $(HOME)/., $(TARGETS))
-
+updatehomedir: $(addprefix $(HOME)/., $(TARGETS))
 $(HOME)/.%: dot.%
 	cp $? $@
+
+
+updaterepo: $(addprefix dot., $(TARGETS))
+dot.%: $(HOME)/.%
+	cp $? $@
+
+.PHONY: updatehomedir updaterepo

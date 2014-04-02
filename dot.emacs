@@ -2,10 +2,11 @@
 ;;; Commentary:
 
 ;;; Code:
+(setq server-socket-dir "~/.emacs.d/server/")
 (server-start)
 
-(setenv "PATH" (concat "/usr/local/bin/:/opt/local/bin:" (getenv "PATH")))
-(setq exec-path (append exec-path '("/usr/local/bin" "/opt/local/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":" (mapconcat 'identity '("/usr/local/go/bin" "/usr/local/bin" "/opt/local/bin/" "/Users/brian/go/bin") ":")))
+(setq exec-path (append exec-path '("/usr/local/go/bin" "/Usr/local/bin" "/opt/local/bin" "/Users/brian/go/bin")))
 ;; set this _before_ loading packages
 ;;(setq jedi:setup-keys t)
 ;;(setq jedi:complete-on-dot t)
@@ -26,7 +27,6 @@
           )
         )
        dirs))
-;;(setq jedi:server-args  (virtualenvs "~/.envs"))
 
 ;; install el-get if not present
 (setq el-get-user-package-directory "~/.emacs.d/packages.d/")
@@ -48,9 +48,9 @@
     sicp
     auto-dictionary
     puppet-mode
+    go-mode
     rect-mark
     crontab-mode
-    rainbow-delimiters
     markdown-mode
     color-theme-solarized
     yaml-mode
@@ -63,39 +63,26 @@
     auto-complete-yasnippet
     ac-python
     auto-complete-css
-    jinja2-mode
+    ;jinja2-mode
     virtualenv
+    web-mode
     ;rope
     ;ropemacs
     ;ropemode
     ;pymacs ;; prefer jedi
-    jedi
+
 ))
-
-
-;; (require 'package)
-;; (setq package-archives '(("marmalade" . "http://marmalade-repo.org/packages/")
-;;                          ("melpa" . "http://melpa.milkbox.net/packages/")
-;;                          ("gnu" . "http://elpa.gnu.org/packages/")))
-;; (package-initialize)
 
 
 ;(ido-mode t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
 
-(require 'auto-complete-config)
-(global-auto-complete-mode t)
-
-(yas/load-directory "~/.emacs.d/snippets")
-(yas/global-mode 1)
-(add-hook 'after-init-hook #'global-flycheck-mode)
-
-;pesky backupfiles - go away
+;Pesky backupfiles - go away
 (setq backup-inhibited t)
 
 ; tramp mode
 (require 'tramp)
-(setq tramp-default-method "scp")
+(setq tramp-default-method "scpc")
 
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -106,7 +93,6 @@
 (setq indent-line-function 'insert-tab)
 
 (setq whitespace-style '(face empty tabs lines-tail trailing))
-(global-whitespace-mode t)
 
 (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1")
 (tool-bar-mode -1)
@@ -120,3 +106,4 @@
 
 
 ;; completion stuff
+(put 'upcase-region 'disabled nil)
