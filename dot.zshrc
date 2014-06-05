@@ -1,6 +1,6 @@
 # Path to your oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="miloshadzic"
+ZSH_THEME="fino"
 
 # Set to this to use case-sensitive completion
 CASE_SENSITIVE="true"
@@ -19,18 +19,18 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export GOROOT=/usr/local/go
+export GOROOT=/usr/local/opt/go/libexec
 export GOPATH=${HOME}/go
 
 export PATH="/usr/local/heroku/bin:/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/X11/bin:/usr/local/git/bin:/usr/local/MacGPG2/bin"
 
 source /usr/local/bin/virtualenvwrapper.sh
 
-export DOCKER_HOST=tcp://
+export DOCKER_HOST=tcp://localhost:4243
 
 PATH=$PATH:/usr/local/go/bin
 PATH=$PATH:/usr/local/share/npm/bin
-PATH=$PATH:~/.bin:${GOPATH}/bin
+PATH=$PATH:~/.bin:${GOROOT}/bin:${GOPATH}/bin
 
 
 export MANPATH="/usr/local/man:$MANPATH"
@@ -38,3 +38,4 @@ export MANPATH="/usr/local/man:$MANPATH"
 export ALTERNATE_EDITOR=nano
 export EDITOR=emacsclient
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi

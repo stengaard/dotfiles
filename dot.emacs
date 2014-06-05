@@ -5,8 +5,10 @@
 (setq server-socket-dir "~/.emacs.d/server/")
 (server-start)
 
-(setenv "PATH" (concat (getenv "PATH") ":" (mapconcat 'identity '("/usr/local/go/bin" "/usr/local/bin" "/opt/local/bin/" "/Users/brian/go/bin") ":")))
-(setq exec-path (append exec-path '("/usr/local/go/bin" "/Usr/local/bin" "/opt/local/bin" "/Users/brian/go/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":" (mapconcat 'identity '("/usr/local/opt/go/libexec/bin" "/usr/local/bin" "/opt/local/bin/" "/Users/brs/go/bin") ":")))
+(setq exec-path (append exec-path '("/usr/local/opt/go/libexec/bin" "/Usr/local/bin" "/opt/local/bin" "/Users/brs/go/bin")))
+(setenv "GOPATH" "$HOME/go/")
+
 ;; set this _before_ loading packages
 ;;(setq jedi:setup-keys t)
 ;;(setq jedi:complete-on-dot t)
@@ -49,6 +51,7 @@
     auto-dictionary
     puppet-mode
     go-mode
+    go-autocomplete
     rect-mark
     crontab-mode
     markdown-mode
@@ -64,7 +67,6 @@
     ac-python
     auto-complete-css
     ;jinja2-mode
-    virtualenv
     web-mode
     ;rope
     ;ropemacs
@@ -92,7 +94,26 @@
 (setq-default tab-width 4)
 (setq indent-line-function 'insert-tab)
 
+; go stuff
+(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'go-mode-hook '(lambda ()
+  (local-set-key (kbd "C-c C-c") 'compile)))
+(add-hook 'go-mode-hook '(lambda ()
+  (local-set-key (kbd "C-c C-p") 'previous-buffer)))
+
+;; note to self
+;;; C-c C-j (godef-jump) jumps to symbol
+;;; C-c C-p jumps back
+;;; C-C C-c compile
+
+;(load "~/go/src/code.google.com/p/go.tools/cmd/oracle/oracle.el")
+;(add-hook 'go-mode-hook 'go-oracle-mode)
+(setq gofmt-command "goimports")
+
 (setq whitespace-style '(face empty tabs lines-tail trailing))
+
+
+(setq ring-bell-function 'ignore)
 
 (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1")
 (tool-bar-mode -1)
