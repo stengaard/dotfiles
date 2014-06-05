@@ -95,24 +95,36 @@
 (setq indent-line-function 'insert-tab)
 
 ; go stuff
-(add-hook 'before-save-hook 'gofmt-before-save)
-(add-hook 'go-mode-hook '(lambda ()
-  (local-set-key (kbd "C-c C-c") 'compile)))
-(add-hook 'go-mode-hook '(lambda ()
-  (local-set-key (kbd "C-c C-p") 'previous-buffer)))
+(require 'go-autocomplete)
+(require 'auto-complete-config)
 
 ;; note to self
 ;;; C-c C-j (godef-jump) jumps to symbol
-;;; C-c C-p jumps back
+;;; C-c <left> jumps back (buffer based)
 ;;; C-C C-c compile
+(defun brs-go-mode-hook ()
+  ; Call Gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
 
+  ; Customize compile command to run go build
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  (setq gofmt-command "goimports")
+
+  ; compile shortcut
+  (local-set-key (kbd "C-c C-c") 'compile)
+  ;(go-oracle-mode)
+)
+
+(add-hook 'go-mode-hook 'brs-go-mode-hook)
 ;(load "~/go/src/code.google.com/p/go.tools/cmd/oracle/oracle.el")
-;(add-hook 'go-mode-hook 'go-oracle-mode)
-(setq gofmt-command "goimports")
+
+
+
+
 
 (setq whitespace-style '(face empty tabs lines-tail trailing))
-
-
 (setq ring-bell-function 'ignore)
 
 (set-default-font "-apple-DejaVu_Sans_Mono-medium-normal-normal-*-15-*-*-*-m-0-iso10646-1")
