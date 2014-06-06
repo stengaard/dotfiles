@@ -7,7 +7,7 @@
 
 (setenv "PATH" (concat (getenv "PATH") ":" (mapconcat 'identity '("/usr/local/opt/go/libexec/bin" "/usr/local/bin" "/opt/local/bin/" "/Users/brs/go/bin") ":")))
 (setq exec-path (append exec-path '("/usr/local/opt/go/libexec/bin" "/Usr/local/bin" "/opt/local/bin" "/Users/brs/go/bin")))
-(setenv "GOPATH" "$HOME/go/")
+(setenv "GOPATH" "$HOME/go/" 'true)
 
 ;; set this _before_ loading packages
 ;;(setq jedi:setup-keys t)
