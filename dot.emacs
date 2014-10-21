@@ -2,33 +2,13 @@
 ;;; Commentary:
 
 ;;; Code:
-(setq server-socket-dir "~/.emacs.d/server/")
+(setq server-socket-dir "~/.emacs.d/")
 (server-start)
 
-(setenv "PATH" (concat (getenv "PATH") ":" (mapconcat 'identity '("/usr/local/opt/go/libexec/bin" "/usr/local/bin" "/opt/local/bin/" "/Users/brs/go/bin") ":")))
-(setq exec-path (append exec-path '("/usr/local/opt/go/libexec/bin" "/Usr/local/bin" "/opt/local/bin" "/Users/brs/go/bin")))
+(setenv "PATH" (concat (getenv "PATH") ":" (mapconcat 'identity '("/usr/local/opt/go/libexec/bin" "/usr/local/bin" "/opt/local/bin/" "/Users/brian/go/bin") ":")))
+(setq exec-path (append exec-path '("/usr/local/opt/go/libexec/bin" "/Usr/local/bin" "/opt/local/bin" "/Users/brian/go/bin")))
 (setenv "GOPATH" "$HOME/go/" 'true)
 
-;; set this _before_ loading packages
-;;(setq jedi:setup-keys t)
-;;(setq jedi:complete-on-dot t)
-(defun virtualenvs (dir)
-  "Find all directories in DIR."
-  (unless (file-directory-p dir)
-    (error "Not a directory `%s'" dir))
-    (let ((dir (directory-file-name dir))
-          (dirs '())
-          (files (directory-files dir nil nil t)))
-        (dolist (file files)
-          (unless (member file '("." ".."))
-            (let ((file (concat dir "/" file)))
-              (when (file-directory-p file)
-                (setq dirs (append (list "--virtual-env" (expand-file-name file)) dirs))
-              )
-            )
-          )
-        )
-       dirs))
 
 ;; install el-get if not present
 (setq el-get-user-package-directory "~/.emacs.d/packages.d/")
@@ -63,6 +43,9 @@
     whitespace
     python-pep8
     python-mode
+    virtualenvwrapper
+    dash ;; virtualenvwrapper dep
+    s ;; virtualenvwrapper dep
     yasnippet
     auto-complete
     auto-complete-yasnippet
@@ -70,6 +53,7 @@
     auto-complete-css
     ;jinja2-mode
     web-mode
+    jedi
     ;rope
     ;ropemacs
     ;ropemode
@@ -77,6 +61,11 @@
 
 ))
 
+
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells)
+(venv-initialize-eshell)
+(setq venv-location "/Users/brian/.virtualenvs")
 
 ;(ido-mode t)
 (add-hook 'shell-mode-hook 'ansi-color-for-comint-mode-on)
@@ -107,7 +96,7 @@
 ;;; C-c C-j (godef-jump) jumps to symbol
 ;;; C-c <left> jumps back (buffer based)
 ;;; C-C C-c compile
-(defun brs-go-mode-hook ()
+(defun brian-go-mode-hook ()
   ; Call Gofmt before saving
   (add-hook 'before-save-hook 'gofmt-before-save)
   ; show line numbers
@@ -123,7 +112,7 @@
   ;(go-oracle-mode)
 )
 
-(add-hook 'go-mode-hook 'brs-go-mode-hook)
+(add-hook 'go-mode-hook 'brian-go-mode-hook)
 ;(load "~/go/src/code.google.com/p/go.tools/cmd/oracle/oracle.el")
 
 (add-hook 'go-mode-hook 'linum-mode)
