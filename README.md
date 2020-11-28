@@ -3,6 +3,9 @@ dotfiles
 
 Just my dotfiles - nothing special.
 
- - using
-   - OSX (with all the idiosyncracies in that)
-   - Zsh
+To install
+
+```
+git clone git@github.com:stengaard/dotfiles.git .dotfiles
+(cd .dotfiles ; stow .)
+```
